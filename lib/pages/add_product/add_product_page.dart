@@ -1,45 +1,55 @@
 import 'package:flutter/material.dart';
 import 'widgets/widget.dart';
 
-class AddProductPage extends StatelessWidget {
+class AddProductPage extends StatefulWidget {
   const AddProductPage({super.key});
+
+  @override
+  State<AddProductPage> createState() => _AddProductPageState();
+}
+
+class _AddProductPageState extends State<AddProductPage> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    priceController.dispose();
+    descriptionController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 1,
-        shadowColor: Colors.black.withOpacity(0.1),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black87),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: const Text(
-          '상품 등록',
-          style: TextStyle(
-            color: Colors.black87,
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        title: const Text('상품 등록'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            ImageSelectionWidget(),
-            SizedBox(height: 32),
-            ProductNameInputWidget(),
-            SizedBox(height: 24),
-            ProductPriceInputWidget(),
-            SizedBox(height: 24),
-            ProductDescriptionInputWidget(),
-            SizedBox(height: 40),
-            RegisterButtonWidget(),
+          children: [
+            const ImageSelectionWidget(),
+            const SizedBox(height: 24),
+            ProductNameInputWidget(controller: nameController),
+            const SizedBox(height: 16),
+            ProductPriceInputWidget(controller: priceController),
+            const SizedBox(height: 16),
+            ProductDescriptionInputWidget(controller: descriptionController),
+            const SizedBox(height: 32),
+            RegisterButtonWidget(
+              nameController: nameController,
+              priceController: priceController,
+              descriptionController: descriptionController,
+            ),
           ],
         ),
       ),

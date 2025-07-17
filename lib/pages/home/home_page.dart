@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:today_s_farm/models/product_list.dart';
+import 'package:today_s_farm/models/product_model.dart';
 import 'package:today_s_farm/pages/add_product/add_product_page.dart';
 import 'package:today_s_farm/pages/detail/detail_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<Product> productList = List.from(products);
+
+  @override
   Widget build(BuildContext context) {
-    // 예시 상품 데이터 (Product 클래스 사용)
-    print('${products[0].imageUrl}');
     return Scaffold(
       appBar: AppBar(title: const Text('상품 목록'), centerTitle: true),
-      body: products.isEmpty
+      body: productList.isEmpty
           ? const Center(child: Text('상품이 없습니다.'))
           : ListView.builder(
-              itemCount: products.length,
+              itemCount: productList.length,
               itemBuilder: (context, index) {
-                final product = products[index];
+                final product = productList[index];
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -86,11 +92,18 @@ class HomePage extends StatelessWidget {
               },
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          final result = await Navigator.push(
             context,
             MaterialPageRoute(builder: (_) => const AddProductPage()),
           );
+
+          // 등록 완료 후 새로운 상품을 목록 맨 위에 추가
+          if (result != null && result is Product) {
+            setState(() {
+              productList.insert(0, result);
+            });
+          }
         },
         child: const Icon(Icons.add),
       ),
