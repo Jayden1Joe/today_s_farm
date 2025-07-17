@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:today_s_farm/models/product_model.dart';
+import 'package:today_s_farm/models/product_list.dart';
 import 'package:today_s_farm/pages/add_product/add_product_page.dart';
 import 'package:today_s_farm/pages/detail/detail_page.dart';
 
@@ -9,17 +9,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 예시 상품 데이터 (Product 클래스 사용)
-    final List<Product> products = [
-      Product(
-        name: '상품 이름 1',
-        price: 16000,
-        description: '첫 번째 상품 설명',
-        imageUrl: null,
-      ),
-      Product(name: '무료 샘플', price: 0, description: '무료 상품 설명', imageUrl: null),
-      // 필요 시 더 추가...
-    ];
-
+    print('${products[0].imageUrl}');
     return Scaffold(
       appBar: AppBar(title: const Text('상품 목록'), centerTitle: true),
       body: products.isEmpty
@@ -63,7 +53,7 @@ class HomePage extends StatelessWidget {
                             color: Colors.grey.shade200,
                             child: product.imageUrl == null
                                 ? const Icon(Icons.image, color: Colors.white54)
-                                : Image.network(
+                                : Image.asset(
                                     product.imageUrl!,
                                     fit: BoxFit.cover,
                                   ),
