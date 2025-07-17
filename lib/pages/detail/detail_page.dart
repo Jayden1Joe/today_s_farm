@@ -98,7 +98,7 @@ class _DetailPageState extends State<DetailPage> {
         children: [
           // 상품 이미지 큰 화면 [x]
           widget.imageUrl != null
-              ? Image.network(
+              ? Image.asset(
                   widget.imageUrl!,
                   width: double.infinity,
                   height: 250,
@@ -114,7 +114,7 @@ class _DetailPageState extends State<DetailPage> {
                   color: Colors.grey.shade300,
                   width: double.infinity,
                   height: 250,
-                  child: const Center(child: Text('No Image')),
+                  child: const Center(child: Text('이미지가 없습니다')),
                 ),
           const SizedBox(height: 16),
 
