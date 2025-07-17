@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:today_s_farm/pages/add_product/add_product_page.dart';
+import 'package:today_s_farm/pages/detail/detail_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -34,7 +36,17 @@ class HomePage extends StatelessWidget {
 
                 return GestureDetector(
                   onTap: () {
-                    // 상세 페이지 이동 처리 예정
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => DetailPage(
+                          title: product['name'] ?? '',
+                          description: product['description'] ?? '',
+                          imageUrl: product['imageUrl'],
+                          price: product['price'] ?? 0,
+                        ),
+                      ),
+                    );
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -84,7 +96,10 @@ class HomePage extends StatelessWidget {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // 상품 등록 페이지 이동 처리 예정
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const AddProductPage()),
+          );
         },
         child: const Icon(Icons.add),
       ),
