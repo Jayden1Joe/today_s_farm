@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 class DetailPage extends StatefulWidget {
   final String title;
   final String description;
-  final String imageUrl;
+  final String? imageUrl;
   final int price;
 
   const DetailPage({
@@ -97,18 +97,25 @@ class _DetailPageState extends State<DetailPage> {
       body: Column(
         children: [
           // 상품 이미지 큰 화면 [x]
-          Image.network(
-            widget.imageUrl,
-            width: double.infinity,
-            height: 250,
-            fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) => Container(
-              color: Colors.grey.shade300,
-              width: double.infinity,
-              height: 250,
-              child: const Center(child: Text('Image')),
-            ),
-          ),
+          widget.imageUrl != null
+              ? Image.network(
+                  widget.imageUrl!,
+                  width: double.infinity,
+                  height: 250,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => Container(
+                    color: Colors.grey.shade300,
+                    width: double.infinity,
+                    height: 250,
+                    child: const Center(child: Text('Image')),
+                  ),
+                )
+              : Container(
+                  color: Colors.grey.shade300,
+                  width: double.infinity,
+                  height: 250,
+                  child: const Center(child: Text('No Image')),
+                ),
           const SizedBox(height: 16),
 
           // 상품 이름 & 가격 [x]
@@ -166,7 +173,7 @@ class _DetailPageState extends State<DetailPage> {
               children: [
                 const Text('총 가격', style: TextStyle(fontSize: 14)),
                 Text(
-                  '${totalPrice.toString().replaceAllMapped(RegExp(r'\\B(?=(\\d{3})+(?!\\d))'), (m) => ',')}원',
+                  '${totalPrice.toString().replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (m) => ',')}원',
                   style: const TextStyle(fontSize: 16),
                 ),
               ],
