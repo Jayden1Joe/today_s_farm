@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:today_s_farm/pages/add_product/add_product_page.dart';
 import 'package:today_s_farm/pages/home/home_page.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const HomePage(),
+      home: const AddProductPage(),
     );
   }
 }
