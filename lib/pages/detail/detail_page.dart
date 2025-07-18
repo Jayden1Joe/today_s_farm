@@ -52,22 +52,24 @@ class _DetailPageState extends State<DetailPage> {
       body: Column(
         children: [
           widget.product.imageUrl != null
-              ? Image.asset(
-                  widget.product.imageUrl!,
+              ? Container(
                   width: double.infinity,
-                  height: 250,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Container(
-                    color: Colors.grey.shade300,
+                  child: Image.asset(
+                    widget.product.imageUrl!,
                     width: double.infinity,
-                    height: 250,
-                    child: const Center(child: Text('Image')),
+                    fit: BoxFit.fitWidth,
+                    errorBuilder: (_, __, ___) => Container(
+                      color: Colors.grey.shade300,
+                      width: double.infinity,
+                      height: 300,
+                      child: const Center(child: Text('Image')),
+                    ),
                   ),
                 )
               : Container(
                   color: Colors.grey.shade300,
                   width: double.infinity,
-                  height: 250,
+                  height: 300,
                   child: const Center(child: Text('이미지가 없습니다')),
                 ),
           const SizedBox(height: 16),
