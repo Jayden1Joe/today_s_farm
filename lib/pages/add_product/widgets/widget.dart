@@ -101,17 +101,59 @@ class ProductDescriptionInputWidget extends StatelessWidget {
   }
 }
 
+// 상품 원산지 입력 위젯
+class ProductOriginInputWidget extends StatelessWidget {
+  final TextEditingController controller;
+
+  const ProductOriginInputWidget({super.key, required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('상품 원산지'),
+        const SizedBox(height: 8),
+        TextField(controller: controller, maxLines: 5),
+      ],
+    );
+  }
+}
+
+// 생산자 성함 입력 위젯
+class ProductFarmerInputWidget extends StatelessWidget {
+  final TextEditingController controller;
+
+  const ProductFarmerInputWidget({super.key, required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('생산자 성함'),
+        const SizedBox(height: 8),
+        TextField(controller: controller, maxLines: 5),
+      ],
+    );
+  }
+}
+
 // 등록하기 버튼 위젯
 class RegisterButtonWidget extends StatelessWidget {
   final TextEditingController nameController;
   final TextEditingController priceController;
   final TextEditingController descriptionController;
+  final TextEditingController originController;
+  final TextEditingController farmerController;
 
   const RegisterButtonWidget({
     super.key,
     required this.nameController,
     required this.priceController,
     required this.descriptionController,
+    required this.originController,
+    required this.farmerController,
   });
 
   @override
@@ -194,7 +236,9 @@ class RegisterButtonWidget extends StatelessWidget {
                   name: nameController.text,
                   price: int.parse(priceController.text),
                   description: descriptionController.text,
+                  origin: originController.text,
                   imageUrl: null, // 이미지 선택 기능은 나중에 구현
+                  farmer: farmerController.text,
                 );
 
                 Navigator.of(context).pop(); // 다이얼로그 닫기
