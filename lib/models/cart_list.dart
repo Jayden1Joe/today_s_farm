@@ -68,7 +68,9 @@ class CartList {
 
   // 내부 헬퍼 메서드
   void _updateItemQuantity(
-      String productId, CartItem Function(CartItem) updateFn) {
+    String productId,
+    CartItem Function(CartItem) updateFn,
+  ) {
     final index = _items.indexWhere((item) => item.product.id == productId);
     if (index != -1) {
       final newItem = updateFn(_items[index]);
@@ -89,10 +91,8 @@ class CartList {
   int get totalItems => _items.fold(0, (sum, item) => sum + item.quantity);
 
   // 총 가격
-  int get totalPrice => _items.fold(
-        0,
-        (sum, item) => sum + (item.product.price * item.quantity),
-      );
+  int get totalPrice =>
+      _items.fold(0, (sum, item) => sum + (item.product.price * item.quantity));
 
   // 장바구니가 비어있는지 확인
   bool get isEmpty => _items.isEmpty;
@@ -121,10 +121,12 @@ class CartList {
   Map<String, dynamic> toJson() {
     return {
       'items': _items
-          .map((item) => {
-                'product': item.product.toJson(),
-                'quantity': item.quantity,
-              })
+          .map(
+            (item) => {
+              'product': item.product.toJson(),
+              'quantity': item.quantity,
+            },
+          )
           .toList(),
     };
   }

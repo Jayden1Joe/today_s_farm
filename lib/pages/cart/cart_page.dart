@@ -66,9 +66,19 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF8FAF3),
       appBar: AppBar(
-        title: const Text('장바구니'),
-        leading: const BackButton(),
+        backgroundColor: const Color(0xFFF8FAF3),
+        elevation: 0,
+        title: const Text(
+          '장바구니',
+          style: TextStyle(
+            color: Color(0xFF222222),
+            fontWeight: FontWeight.w600,
+            fontSize: 22,
+          ),
+        ),
+        leading: const BackButton(color: Color(0xFF222222)),
         centerTitle: true,
       ),
       body: Consumer<CartProvider>(
@@ -80,55 +90,120 @@ class CartPage extends StatelessWidget {
           return Column(
             children: [
               Expanded(
-                child: ListView.builder(
+                child: ListView.separated(
+                  padding: const EdgeInsets.only(top: 8, bottom: 8),
                   itemCount: cartProvider.items.length,
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 8),
                   itemBuilder: (context, index) {
                     final item = cartProvider.items[index];
                     return Container(
-                      padding: const EdgeInsets.all(12),
                       margin: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(color: Colors.grey.shade300),
-                        ),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.03),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
                       ),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: item.product.imageUrl != null
                                 ? Image.asset(
                                     item.product.imageUrl!,
-                                    width: 60,
-                                    height: 60,
+                                    width: 56,
+                                    height: 56,
                                     fit: BoxFit.cover,
                                     errorBuilder: (_, __, ___) =>
                                         _buildImagePlaceholder(),
                                   )
                                 : _buildImagePlaceholder(),
                           ),
-                          const SizedBox(width: 16),
-                          Expanded(child: Text(item.product.name)),
-                          const SizedBox(width: 8),
-                          Row(
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.remove),
-                                onPressed: () => cartProvider
-                                    .decrementQuantity(item.product.id),
-                              ),
-                              Text('${item.quantity}'),
-                              IconButton(
-                                icon: const Icon(Icons.add),
-                                onPressed: () => cartProvider
-                                    .incrementQuantity(item.product.id),
-                              ),
-                            ],
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item.product.name,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15,
+                                    color: Color(0xFF222222),
+                                  ),
+                                ),
+                                if (item.product.description != null &&
+                                    item.product.description!.isNotEmpty)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 2.0),
+                                    child: Text(
+                                      item.product.description!,
+                                      style: const TextStyle(
+                                        fontSize: 13,
+                                        color: Color(0xFF888888),
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
                           const SizedBox(width: 8),
-                          Text(_formatPrice(item.totalPrice)),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: const Color(0xFFE0E0E0),
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                              color: const Color(0xFFF8FAF3),
+                            ),
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.remove, size: 18),
+                                  splashRadius: 18,
+                                  onPressed: () => cartProvider
+                                      .decrementQuantity(item.product.id),
+                                ),
+                                Text(
+                                  '${item.quantity}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.add, size: 18),
+                                  splashRadius: 18,
+                                  onPressed: () => cartProvider
+                                      .incrementQuantity(item.product.id),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            _formatPrice(item.totalPrice),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                              color: Color(0xFF222222),
+                            ),
+                          ),
                           IconButton(
-                            icon: const Icon(Icons.close),
+                            icon: const Icon(
+                              Icons.close,
+                              size: 22,
+                              color: Color(0xFF888888),
+                            ),
+                            splashRadius: 18,
                             onPressed: () =>
                                 cartProvider.removeItem(item.product.id),
                           ),
@@ -148,8 +223,8 @@ class CartPage extends StatelessWidget {
 
   Widget _buildImagePlaceholder() {
     return Container(
-      width: 60,
-      height: 60,
+      width: 56,
+      height: 56,
       color: Colors.grey.shade300,
       child: const Icon(Icons.image, color: Colors.white54),
     );
@@ -160,17 +235,42 @@ class CartPage extends StatelessWidget {
       return const SizedBox.shrink();
     }
     return Container(
-      padding: const EdgeInsets.all(16.0),
-      width: double.infinity,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          textStyle: const TextStyle(fontSize: 18),
+      margin: const EdgeInsets.only(left: 8, right: 8, bottom: 12, top: 0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.all(8.0),
+      child: SizedBox(
+        width: double.infinity,
+        height: 54,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFFF8FAF3),
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
+          ),
+          onPressed: () {
+            // 구매 처리 로직
+          },
+          child: Text(
+            '총 ${_formatPrice(cartProvider.totalPrice)} 구매하기',
+            style: const TextStyle(
+              color: Color(0xFF6BA16C),
+              fontWeight: FontWeight.w600,
+              fontSize: 18,
+            ),
+          ),
         ),
-        onPressed: () {
-          // 구매 처리 로직
-        },
-        child: Text('총 ${_formatPrice(cartProvider.totalPrice)} 구매하기'),
       ),
     );
   }
