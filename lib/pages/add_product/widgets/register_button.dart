@@ -24,12 +24,7 @@ class RegisterButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         // 필수 필드가 비어있는지 확인
-        if (nameController.text.isEmpty ||
-            priceController.text.isEmpty ||
-            descriptionController.text.isEmpty ||
-            originController.text.isEmpty ||
-            farmerController.text.isEmpty ||
-            _isNotNumber()) {
+        if (_isNotEmpty() || _isNotNumber()) {
           _showDialog(context);
           return;
         }
@@ -46,13 +41,15 @@ class RegisterButton extends StatelessWidget {
     );
   }
 
-  bool _isNotNumber() {
-    if (priceController.text.isNotEmpty &&
-        !RegExp(r'^\d+$').hasMatch(priceController.text)) {
-      return true;
-    }
-    return false;
-  }
+  bool _isNotNumber() =>
+      priceController.text.isNotEmpty &&
+      !RegExp(r'^\d+$').hasMatch(priceController.text);
+  bool _isNotEmpty() =>
+      farmerController.text.isEmpty ||
+      nameController.text.isEmpty ||
+      priceController.text.isEmpty ||
+      originController.text.isEmpty ||
+      descriptionController.text.isEmpty;
 
   void _showDialog(BuildContext context) {
     String resultText = "";
@@ -117,8 +114,8 @@ class RegisterButton extends StatelessWidget {
                   origin: originController.text,
                   imageUrl: null, // 이미지 선택 기능은 나중에 구현
                   farmer: farmerController.text,
-                  deliveryDate: 0,
-                  star: 0,
+                  deliveryDate: null,
+                  star: null,
                   reviewCount: 0,
                 );
 
