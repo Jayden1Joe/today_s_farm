@@ -57,6 +57,9 @@ class Product {
   // 가격을 포맷팅된 문자열로 반환
   String get formattedPrice => PriceFormatter.format(price);
 
+  String get formattedPriceWithoutUnit =>
+      PriceFormatterWithOutUnit.format(price);
+
   String get formattedDeliveryDate {
     if (deliveryDate == null) {
       return "배송일 정보 없음";

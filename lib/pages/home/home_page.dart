@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(
-                      vertical: 8,
+                      vertical: 6, // 리스트 아이템 간 세로 간격
                       horizontal: 16,
                     ),
                     decoration: BoxDecoration(
@@ -102,37 +102,63 @@ class _HomePageState extends State<HomePage> {
                                 "${product.origin} · ${product.farmer} 농부",
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: Colors.grey[600],
+                                  color: Colors.grey[800],
                                 ),
                               ),
-                              const SizedBox(height: 4),
+                              SizedBox(height: 1),
+                              Text(
+                                product.name,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+
+                              SizedBox(height: 3),
                               RichText(
                                 text: TextSpan(
-                                  text: product.name,
+                                  text: product.formattedPriceWithoutUnit,
                                   style: const TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
                                   ),
+                                  children: [
+                                    TextSpan(
+                                      text: '원',
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: 6),
-                              Text(
-                                product.formattedPrice,
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+                              const SizedBox(height: 25),
+                              RichText(
+                                text: TextSpan(
+                                  text: "예상배송일 ",
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.black,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: product.formattedDeliveryDate,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: 12),
-                              Text("예상배송일  ${product.formattedDeliveryDate}"),
-                              const SizedBox(height: 4),
                               Row(
                                 children: [
                                   PartialStarRating(rating: product.star!),
                                   Text(
                                     '${product.star}',
-                                    style: TextStyle(fontSize: 14),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ],
                               ),

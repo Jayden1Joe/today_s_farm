@@ -9,38 +9,50 @@ class PartialStarRating extends StatelessWidget {
   const PartialStarRating({
     super.key,
     required this.rating,
-    this.size = 15,
+    this.size = 10,
     this.filledColor = const Color.fromARGB(255, 0, 0, 0),
-    this.unfilledColor = const Color.fromARGB(255, 214, 214, 214),
+    this.unfilledColor = Colors.white,
   });
 
   @override
   Widget build(BuildContext context) {
-    final percent = (rating / 5.0).clamp(0.0, 1.0); // 0.0 ~ 1.0
-
-    return Stack(
-      children: [
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: List.generate(
-            5,
-            (_) => Icon(Icons.star, color: unfilledColor, size: size),
-          ),
-        ),
-        ClipRect(
-          clipper: _RatingClipper(percent: percent),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(
-              5,
-              (_) => Stack(
-                alignment: Alignment.center,
-                children: [Icon(Icons.star, size: size, color: filledColor)],
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: List.generate(5, (index) {
+        final starFill = rating - index;
+        if (starFill >= 1) {
+          // fully filled
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              Icon(Icons.star, size: size + 5, color: Colors.black),
+              Icon(Icons.star, size: size, color: filledColor),
+            ],
+          );
+        } else if (starFill > 0) {
+          // partially filled
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              Icon(Icons.star, size: size + 5, color: Colors.black),
+              Icon(Icons.star, size: size, color: unfilledColor),
+              ClipRect(
+                clipper: _RatingClipper(percent: starFill.clamp(0.0, 1.0)),
+                child: Icon(Icons.star, size: size, color: filledColor),
               ),
-            ),
-          ),
-        ),
-      ],
+            ],
+          );
+        } else {
+          // empty
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              Icon(Icons.star, size: size + 5, color: Colors.black),
+              Icon(Icons.star, size: size, color: unfilledColor),
+            ],
+          );
+        }
+      }),
     );
   }
 }
