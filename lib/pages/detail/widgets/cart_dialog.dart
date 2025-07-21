@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:today_s_farm/constants/app_colors.dart';
 import 'package:today_s_farm/models/product_model.dart';
 import 'package:today_s_farm/pages/cart/cart_page.dart';
 
@@ -20,7 +21,7 @@ class CartDialog extends StatelessWidget {
           Text(
             '상품이 장바구니에 담겼어요',
             style: TextStyle(
-              color: const Color(0xFF2E2E2E),
+              color: AppColors.textPrimary,
               fontSize: 18,
               fontWeight: FontWeight.w700,
             ),
@@ -29,7 +30,7 @@ class CartDialog extends StatelessWidget {
           Text(
             '${product.name} $quantity개',
             style: TextStyle(
-              color: const Color(0xFF2E2E2E),
+              color: AppColors.textPrimary,
               fontSize: 16,
               fontWeight: FontWeight.w400,
             ),
@@ -43,7 +44,7 @@ class CartDialog extends StatelessWidget {
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF6D9F4B),
+                backgroundColor: AppColors.buttonPrimary,
                 foregroundColor: Colors.white,
                 elevation: 0,
                 padding: const EdgeInsets.symmetric(vertical: 12),
@@ -75,8 +76,8 @@ class CartDialog extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFF5F2E7),
-                foregroundColor: const Color(0xFF7C7C7C),
+                backgroundColor: AppColors.surface,
+                foregroundColor: AppColors.textSecondary,
                 elevation: 0,
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
@@ -86,7 +87,7 @@ class CartDialog extends StatelessWidget {
               child: Text(
                 '장바구니로 가기',
                 style: TextStyle(
-                  color: const Color(0xFF7C7C7C),
+                  color: AppColors.textSecondary,
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),
