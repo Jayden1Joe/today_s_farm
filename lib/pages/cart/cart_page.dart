@@ -68,7 +68,7 @@ class CartPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAF3),
       appBar: AppBar(
-        backgroundColor: const Color(0xFFF8FAF3),
+        backgroundColor: Colors.white,
         elevation: 0,
         title: const Text(
           '장바구니',
@@ -80,17 +80,30 @@ class CartPage extends StatelessWidget {
         ),
         leading: const BackButton(color: Color(0xFF222222)),
         centerTitle: true,
+        toolbarHeight: 60,
       ),
-      body: Consumer<CartProvider>(
-        builder: (context, cartProvider, child) {
-          if (cartProvider.items.isEmpty) {
-            return const Center(child: Text('장바구니가 비어있습니다.'));
-          }
-
-          return Column(
-            children: [
-              Expanded(
-                child: ListView.separated(
+      body: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            color: const Color(0xFFF8FAF3),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            child: const Text(
+              '내일 도착 예정',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF222222),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Consumer<CartProvider>(
+              builder: (context, cartProvider, child) {
+                if (cartProvider.items.isEmpty) {
+                  return const Center(child: Text('장바구니가 비어있습니다.'));
+                }
+                return ListView.separated(
                   padding: const EdgeInsets.only(top: 8, bottom: 8),
                   itemCount: cartProvider.items.length,
                   separatorBuilder: (context, index) =>
@@ -99,7 +112,7 @@ class CartPage extends StatelessWidget {
                     final item = cartProvider.items[index];
                     return Container(
                       margin: const EdgeInsets.symmetric(horizontal: 16),
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(22),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
@@ -112,23 +125,24 @@ class CartPage extends StatelessWidget {
                         ],
                       ),
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(18),
                             child: item.product.imageUrl != null
                                 ? Image.asset(
                                     item.product.imageUrl!,
-                                    width: 56,
-                                    height: 56,
+                                    width: 140,
+                                    height: 140,
                                     fit: BoxFit.cover,
                                     errorBuilder: (_, __, ___) =>
-                                        _buildImagePlaceholder(),
+                                        _buildImagePlaceholder(size: 140),
                                   )
-                                : _buildImagePlaceholder(),
+                                : _buildImagePlaceholder(size: 140),
                           ),
-                          const SizedBox(width: 12),
+                          const SizedBox(width: 32),
                           Expanded(
+                            flex: 12,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -136,97 +150,117 @@ class CartPage extends StatelessWidget {
                                   item.product.name,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w600,
-                                    fontSize: 15,
+                                    fontSize: 17,
                                     color: Color(0xFF222222),
                                   ),
                                 ),
                                 if (item.product.description != null &&
                                     item.product.description!.isNotEmpty)
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 2.0),
+                                    padding: const EdgeInsets.only(
+                                      top: 2.0,
+                                      bottom: 14.0,
+                                    ),
                                     child: Text(
                                       item.product.description!,
                                       style: const TextStyle(
-                                        fontSize: 13,
+                                        fontSize: 14,
                                         color: Color(0xFF888888),
                                       ),
                                     ),
                                   ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: const Color(0xFFE0E0E0),
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                              color: const Color(0xFFF8FAF3),
-                            ),
-                            child: Row(
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.remove, size: 18),
-                                  splashRadius: 18,
-                                  onPressed: () => cartProvider
-                                      .decrementQuantity(item.product.id),
+                                Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: const Color(0xFFE0E0E0),
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: const Color(0xFFF8FAF3),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.remove,
+                                              size: 18,
+                                            ),
+                                            splashRadius: 18,
+                                            onPressed: () =>
+                                                cartProvider.decrementQuantity(
+                                                  item.product.id,
+                                                ),
+                                          ),
+                                          Text(
+                                            '${item.quantity}',
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.add,
+                                              size: 18,
+                                            ),
+                                            splashRadius: 18,
+                                            onPressed: () =>
+                                                cartProvider.incrementQuantity(
+                                                  item.product.id,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.close,
+                                        size: 22,
+                                        color: Color(0xFF888888),
+                                      ),
+                                      splashRadius: 18,
+                                      onPressed: () => cartProvider.removeItem(
+                                        item.product.id,
+                                      ),
+                                    ),
+                                  ],
                                 ),
+                                const SizedBox(height: 12),
                                 Text(
-                                  '${item.quantity}',
+                                  _formatPrice(item.totalPrice),
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w600,
-                                    fontSize: 15,
+                                    fontSize: 17,
+                                    color: Color(0xFF222222),
                                   ),
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.add, size: 18),
-                                  splashRadius: 18,
-                                  onPressed: () => cartProvider
-                                      .incrementQuantity(item.product.id),
                                 ),
                               ],
                             ),
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            _formatPrice(item.totalPrice),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15,
-                              color: Color(0xFF222222),
-                            ),
-                          ),
-                          IconButton(
-                            icon: const Icon(
-                              Icons.close,
-                              size: 22,
-                              color: Color(0xFF888888),
-                            ),
-                            splashRadius: 18,
-                            onPressed: () =>
-                                cartProvider.removeItem(item.product.id),
                           ),
                         ],
                       ),
                     );
                   },
-                ),
-              ),
-              _buildPurchaseButton(context, cartProvider),
-            ],
-          );
-        },
+                );
+              },
+            ),
+          ),
+          _buildPurchaseButton(
+            context,
+            Provider.of<CartProvider>(context, listen: false),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildImagePlaceholder() {
+  Widget _buildImagePlaceholder({double size = 56}) {
     return Container(
-      width: 56,
-      height: 56,
+      width: size,
+      height: size,
       color: Colors.grey.shade300,
-      child: const Icon(Icons.image, color: Colors.white54),
+      child: const Icon(Icons.image, color: Colors.white54, size: 44),
     );
   }
 
