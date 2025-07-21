@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'widgets/widget.dart';
+import 'package:today_s_farm/pages/add_product/widgets/add_text_field.dart';
+import 'package:today_s_farm/pages/add_product/widgets/image_selection.dart';
+import 'widgets/register_button.dart';
 
 class AddProductPage extends StatefulWidget {
   const AddProductPage({super.key});
@@ -34,31 +36,45 @@ class _AddProductPageState extends State<AddProductPage> {
         ),
         title: const Text('상품 등록'),
         centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const ImageSelectionWidget(),
-            const SizedBox(height: 24),
-            ProductNameInputWidget(controller: nameController),
-            const SizedBox(height: 16),
-            ProductPriceInputWidget(controller: priceController),
-            const SizedBox(height: 16),
-            ProductOriginInputWidget(controller: originController),
-            const SizedBox(height: 16),
-            ProductDescriptionInputWidget(controller: descriptionController),
-            const SizedBox(height: 16),
-            ProductFarmerInputWidget(controller: farmerController),
-            const SizedBox(height: 32),
-            RegisterButtonWidget(
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: RegisterButton(
               nameController: nameController,
               priceController: priceController,
               originController: originController,
               descriptionController: descriptionController,
               farmerController: farmerController,
             ),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const ImageSelectionWidget(),
+
+            const SizedBox(height: 16),
+            AddTextField(controller: farmerController, label: '생산자 성함'),
+            const SizedBox(height: 16),
+            AddTextField(controller: nameController, label: '상품 이름'),
+            const SizedBox(height: 16),
+            AddTextField(
+              controller: priceController,
+              label: '상품 가격',
+              suffixText: '원',
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 16),
+            AddTextField(controller: originController, label: '상품 원산지'),
+            const SizedBox(height: 16),
+            AddTextField(
+              controller: descriptionController,
+              label: '상품 설명',
+              maxLines: 10,
+            ),
+            const SizedBox(height: 80),
           ],
         ),
       ),
