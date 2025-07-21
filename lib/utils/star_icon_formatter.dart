@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:today_s_farm/constants/app_colors.dart';
 
 class PartialStarRating extends StatelessWidget {
   final double rating; // ex. 4.2
@@ -9,8 +10,8 @@ class PartialStarRating extends StatelessWidget {
   const PartialStarRating({
     super.key,
     required this.rating,
-    this.size = 10,
-    this.filledColor = const Color.fromARGB(255, 0, 0, 0),
+    this.size = 11,
+    this.filledColor = AppColors.starFilled,
     this.unfilledColor = Colors.white,
   });
 
@@ -25,7 +26,7 @@ class PartialStarRating extends StatelessWidget {
           return Stack(
             alignment: Alignment.center,
             children: [
-              Icon(Icons.star, size: size + 5, color: Colors.black),
+              Icon(Icons.star, size: size + 4, color: Colors.black),
               Icon(Icons.star, size: size, color: filledColor),
             ],
           );
@@ -34,7 +35,7 @@ class PartialStarRating extends StatelessWidget {
           return Stack(
             alignment: Alignment.center,
             children: [
-              Icon(Icons.star, size: size + 5, color: Colors.black),
+              Icon(Icons.star, size: size + 4, color: Colors.black),
               Icon(Icons.star, size: size, color: unfilledColor),
               ClipRect(
                 clipper: _RatingClipper(percent: starFill.clamp(0.0, 1.0)),
@@ -47,7 +48,7 @@ class PartialStarRating extends StatelessWidget {
           return Stack(
             alignment: Alignment.center,
             children: [
-              Icon(Icons.star, size: size + 5, color: Colors.black),
+              Icon(Icons.star, size: size + 4, color: Colors.black),
               Icon(Icons.star, size: size, color: unfilledColor),
             ],
           );

@@ -20,11 +20,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('상품 목록'),
-        centerTitle: true,
+        title: const Text(
+          '오늘의 밭',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        centerTitle: false,
         actions: [
           IconButton(
-            icon: const Icon(Icons.shopping_cart),
+            icon: const Icon(Icons.shopping_cart_outlined),
             onPressed: () {
               Navigator.push(
                 context,
@@ -34,143 +37,148 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: productList.isEmpty
-          ? const Center(child: Text('상품이 없습니다.'))
-          : ListView.builder(
-              itemCount: productList.length,
-              itemBuilder: (context, index) {
-                final product = productList[index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => DetailPage(product: product),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 6, // 리스트 아이템 간 세로 간격
-                      horizontal: 16,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(12),
-                                  bottomLeft: Radius.circular(12),
-                                ),
-                                child: Container(
-                                  height: 140,
-                                  width: double.infinity,
-                                  color: Colors.grey.shade200,
-                                  child: product.imageUrl == null
-                                      ? const Icon(
-                                          Icons.image,
-                                          color: Colors.white54,
-                                        )
-                                      : Image.asset(
-                                          product.imageUrl!,
-                                          fit: BoxFit.cover,
-                                          errorBuilder: (_, __, ___) =>
-                                              const Icon(
-                                                Icons.image,
-                                                color: Colors.white54,
-                                              ),
-                                        ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          flex: 3,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${product.origin} · ${product.farmer} 농부",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey[800],
-                                ),
-                              ),
-                              SizedBox(height: 1),
-                              Text(
-                                product.name,
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
+      body: ListView.builder(
+        itemCount: productList.isEmpty ? 1 : productList.length + 1,
+        itemBuilder: (context, index) {
+          if (productList.isEmpty) {
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.all(24.0),
+                child: Text('상품이 없습니다.', style: TextStyle(fontSize: 16)),
+              ),
+            );
+          }
 
-                              SizedBox(height: 3),
-                              RichText(
-                                text: TextSpan(
-                                  text: product.formattedPriceWithoutUnit,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: '원',
-                                      style: TextStyle(fontSize: 15),
+          if (index == 0) {
+            return const Padding(
+              padding: EdgeInsets.fromLTRB(16.0, 4, 0, 4),
+              child: Text(
+                '오늘 아침 수확했어요!',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            );
+          }
+
+          final product = productList[index - 1];
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => DetailPage(product: product)),
+              );
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            bottomLeft: Radius.circular(12),
+                          ),
+                          child: Container(
+                            height: 140,
+                            width: double.infinity,
+                            color: Colors.grey.shade200,
+                            child: product.imageUrl == null
+                                ? const Icon(Icons.image, color: Colors.white54)
+                                : Image.asset(
+                                    product.imageUrl!,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (_, __, ___) => const Icon(
+                                      Icons.image,
+                                      color: Colors.white54,
                                     ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 25),
-                              RichText(
-                                text: TextSpan(
-                                  text: "예상배송일 ",
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.black,
                                   ),
-                                  children: [
-                                    TextSpan(
-                                      text: product.formattedDeliveryDate,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  PartialStarRating(rating: product.star!),
-                                  Text(
-                                    '${product.star}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                );
-              },
+                  const SizedBox(width: 16),
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${product.origin} · ${product.farmer} 농부",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[800],
+                          ),
+                        ),
+                        SizedBox(height: 1),
+                        Text(
+                          product.name,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        SizedBox(height: 3),
+                        RichText(
+                          text: TextSpan(
+                            text: product.formattedPriceWithoutUnit,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: '원',
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 25),
+                        RichText(
+                          text: TextSpan(
+                            text: "예상배송일 ",
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.black,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: product.formattedDeliveryDate,
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            PartialStarRating(rating: product.star!),
+                            Text(
+                              '${product.star}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           final result = await Navigator.push(
