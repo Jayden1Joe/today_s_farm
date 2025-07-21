@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
               );
             },
             child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 16),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                             bottomLeft: Radius.circular(12),
                           ),
                           child: Container(
-                            height: 140,
+                            height: 150,
                             width: double.infinity,
                             color: Colors.grey.shade200,
                             child: product.imageUrl == null
@@ -147,34 +147,53 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 25),
-                        RichText(
-                          text: TextSpan(
-                            text: "예상배송일 ",
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.black,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: product.formattedDeliveryDate,
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                        const SizedBox(height: 27),
+                        product.deliveryDate == null
+                            ? Text(
+                                '배송일 정보 없음',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: AppColors.textSecondary,
+                                ),
+                              )
+                            : RichText(
+                                text: TextSpan(
+                                  text: "예상배송일 ",
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.black,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: product.formattedDeliveryDate,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ],
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            PartialStarRating(rating: product.star!),
-                            Text(
-                              '${product.star}',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                        SizedBox(height: 3),
+                        product.star == null
+                            ? const Text(
+                                '아직 리뷰가 없습니다.',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: AppColors.textSecondary,
+                                ),
+                              )
+                            : Row(
+                                children: [
+                                  PartialStarRating(rating: product.star!),
+                                  Text(
+                                    '${product.star}',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                   ),

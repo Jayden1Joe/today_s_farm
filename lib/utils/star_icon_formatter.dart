@@ -10,7 +10,7 @@ class PartialStarRating extends StatelessWidget {
   const PartialStarRating({
     super.key,
     required this.rating,
-    this.size = 11,
+    this.size = 12,
     this.filledColor = AppColors.starFilled,
     this.unfilledColor = Colors.white,
   });
