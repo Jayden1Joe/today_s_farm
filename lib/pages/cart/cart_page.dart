@@ -112,7 +112,10 @@ class CartPage extends StatelessWidget {
                     final item = cartProvider.items[index];
                     return Container(
                       margin: const EdgeInsets.symmetric(horizontal: 16),
-                      padding: const EdgeInsets.all(22),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 8,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
@@ -128,21 +131,23 @@ class CartPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(18),
+                            borderRadius: BorderRadius.circular(14),
                             child: item.product.imageUrl != null
                                 ? Image.asset(
                                     item.product.imageUrl!,
-                                    width: 140,
-                                    height: 140,
+                                    width: 120,
+                                    height: 160,
                                     fit: BoxFit.cover,
                                     errorBuilder: (_, __, ___) =>
-                                        _buildImagePlaceholder(size: 140),
+                                        _buildImagePlaceholder(
+                                          size: 160,
+                                          width: 120,
+                                        ),
                                   )
-                                : _buildImagePlaceholder(size: 140),
+                                : _buildImagePlaceholder(size: 160, width: 120),
                           ),
-                          const SizedBox(width: 32),
+                          const SizedBox(width: 16),
                           Expanded(
-                            flex: 12,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -159,7 +164,7 @@ class CartPage extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.only(
                                       top: 2.0,
-                                      bottom: 14.0,
+                                      bottom: 10.0,
                                     ),
                                     child: Text(
                                       item.product.description!,
@@ -226,7 +231,7 @@ class CartPage extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 12),
+                                const SizedBox(height: 10),
                                 Text(
                                   _formatPrice(item.totalPrice),
                                   style: const TextStyle(
@@ -255,9 +260,9 @@ class CartPage extends StatelessWidget {
     );
   }
 
-  Widget _buildImagePlaceholder({double size = 56}) {
+  Widget _buildImagePlaceholder({double size = 56, double? width}) {
     return Container(
-      width: size,
+      width: width ?? size,
       height: size,
       color: Colors.grey.shade300,
       child: const Icon(Icons.image, color: Colors.white54, size: 44),
@@ -287,7 +292,7 @@ class CartPage extends StatelessWidget {
         height: 54,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFF8FAF3),
+            backgroundColor: const Color(0xFF357A38), // 진한 녹색
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18),
@@ -299,7 +304,7 @@ class CartPage extends StatelessWidget {
           child: Text(
             '총 ${_formatPrice(cartProvider.totalPrice)} 구매하기',
             style: const TextStyle(
-              color: Color(0xFF6BA16C),
+              color: Colors.white,
               fontWeight: FontWeight.w600,
               fontSize: 18,
             ),
