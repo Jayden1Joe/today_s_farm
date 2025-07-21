@@ -111,11 +111,8 @@ class CartPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final item = cartProvider.items[index];
                     return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 8,
-                        horizontal: 8,
-                      ),
+                      margin: EdgeInsets.zero, // 바깥쪽 여백 최소화
+                      padding: EdgeInsets.zero, // 내부 여백 최소화
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
@@ -177,21 +174,28 @@ class CartPage extends StatelessWidget {
                                 Row(
                                   children: [
                                     Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 0,
+                                        vertical: 0,
+                                      ), // 패딩 더 줄임
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                           color: const Color(0xFFE0E0E0),
                                         ),
-                                        borderRadius: BorderRadius.circular(8),
+                                        borderRadius: BorderRadius.circular(
+                                          20,
+                                        ), // 원형 유지
                                         color: const Color(0xFFF8FAF3),
                                       ),
                                       child: Row(
+                                        mainAxisSize: MainAxisSize.min,
                                         children: [
                                           IconButton(
                                             icon: const Icon(
                                               Icons.remove,
-                                              size: 18,
+                                              size: 18, // 기존 크기 유지
                                             ),
-                                            splashRadius: 18,
+                                            splashRadius: 18, // 기존 크기 유지
                                             onPressed: () =>
                                                 cartProvider.decrementQuantity(
                                                   item.product.id,
@@ -201,15 +205,16 @@ class CartPage extends StatelessWidget {
                                             '${item.quantity}',
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w600,
-                                              fontSize: 15,
+                                              fontSize: 15, // 복원
+                                              color: Color(0xFF222222),
                                             ),
                                           ),
                                           IconButton(
                                             icon: const Icon(
                                               Icons.add,
-                                              size: 18,
+                                              size: 18, // 기존 크기 유지
                                             ),
-                                            splashRadius: 18,
+                                            splashRadius: 18, // 기존 크기 유지
                                             onPressed: () =>
                                                 cartProvider.incrementQuantity(
                                                   item.product.id,
