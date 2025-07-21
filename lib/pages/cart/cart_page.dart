@@ -165,6 +165,8 @@ class CartPage extends StatelessWidget {
                                     ),
                                     child: Text(
                                       item.product.description!,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
                                         fontSize: 14,
                                         color: Color(0xFF888888),
