@@ -306,13 +306,13 @@ class _CartPageState extends State<CartPage> {
                 },
               ),
             ),
-          ),
-          Consumer<CartProvider>(
-            builder: (context, cartProvider, child) {
-              return _buildPurchaseButton(context, cartProvider);
-            },
-          ),
-        ],
+            Consumer<CartProvider>(
+              builder: (context, cartProvider, child) {
+                return _buildPurchaseButton(context, cartProvider);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
