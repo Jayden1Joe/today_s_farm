@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:today_s_farm/providers/cart_provider.dart';
 import 'package:today_s_farm/models/product_model.dart';
-import 'package:today_s_farm/pages/cart/cart_page.dart';
+import 'package:today_s_farm/utils/price_formatter.dart';
 
 class DetailPage extends StatefulWidget {
   final Product product;
@@ -28,8 +29,8 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   void _addToCart() {
-    final cart = context.read<CartProvider>();
-    cart.addItem(widget.product, _quantity);
+    final cartProvider = context.read<CartProvider>();
+    cartProvider.addItem(widget.product, quantity: _quantity);
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -117,7 +118,7 @@ class _DetailPageState extends State<DetailPage> {
               children: [
                 const Text('총 가격', style: TextStyle(fontSize: 14)),
                 Text(
-                  '${totalPrice.toString().replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (m) => ',')}원',
+                  PriceFormatter.format(totalPrice),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,

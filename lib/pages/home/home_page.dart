@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:today_s_farm/models/product_list.dart';
+import 'package:today_s_farm/utils/data_products.dart';
 import 'package:today_s_farm/models/product_model.dart';
 import 'package:today_s_farm/pages/add_product/add_product_page.dart';
 import 'package:today_s_farm/pages/cart/cart_page.dart';
@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Product> productList = List.from(products);
+  List<Product> productList = List.from(DataProducts.products);
 
   @override
   Widget build(BuildContext context) {

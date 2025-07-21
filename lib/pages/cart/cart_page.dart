@@ -1,67 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:today_s_farm/providers/cart_provider.dart';
 import 'package:today_s_farm/models/product_model.dart';
+import 'package:today_s_farm/utils/price_formatter.dart';
 
-class CartItem {
-  final Product product;
-  int quantity;
+// class CartItem {
+//   final Product product;
+//   int quantity;
 
-  CartItem({required this.product, this.quantity = 1});
+//   CartItem({required this.product, this.quantity = 1});
 
-  int get totalPrice => product.price * quantity;
-}
+//   int get totalPrice => product.price * quantity;
+// }
 
-class CartProvider with ChangeNotifier {
-  final List<CartItem> _items = [];
+// class CartProvider with ChangeNotifier {
+//   final List<CartItem> _items = [];
 
-  List<CartItem> get items => _items;
+//   List<CartItem> get items => _items;
 
-  int get totalCartPrice {
-    return _items.fold(0, (sum, item) => sum + item.totalPrice);
-  }
+//   int get totalCartPrice {
+//     return _items.fold(0, (sum, item) => sum + item.totalPrice);
+//   }
 
-  void addItem(Product product, int quantity) {
-    // 이미 장바구니에 있는지 확인
-    final index = _items.indexWhere(
-      (item) => item.product.name == product.name,
-    );
+//   void addItem(Product product, int quantity) {
+//     // 이미 장바구니에 있는지 확인
+//     final index = _items.indexWhere(
+//       (item) => item.product.name == product.name,
+//     );
 
-    if (index >= 0) {
-      _items[index].quantity += quantity;
-    } else {
-      _items.add(CartItem(product: product, quantity: quantity));
-    }
-    notifyListeners();
-  }
+//     if (index >= 0) {
+//       _items[index].quantity += quantity;
+//     } else {
+//       _items.add(CartItem(product: product, quantity: quantity));
+//     }
+//     notifyListeners();
+//   }
 
-  void removeItem(String productName) {
-    _items.removeWhere((item) => item.product.name == productName);
-    notifyListeners();
-  }
+//   void removeItem(String productName) {
+//     _items.removeWhere((item) => item.product.name == productName);
+//     notifyListeners();
+//   }
 
-  void incrementQuantity(String productName) {
-    final index = _items.indexWhere((item) => item.product.name == productName);
-    if (index >= 0 && _items[index].quantity < 99) {
-      _items[index].quantity++;
-      notifyListeners();
-    }
-  }
+//   void incrementQuantity(String productName) {
+//     final index = _items.indexWhere((item) => item.product.name == productName);
+//     if (index >= 0 && _items[index].quantity < 99) {
+//       _items[index].quantity++;
+//       notifyListeners();
+//     }
+//   }
 
-  void decrementQuantity(String productName) {
-    final index = _items.indexWhere((item) => item.product.name == productName);
-    if (index >= 0 && _items[index].quantity > 1) {
-      _items[index].quantity--;
-      notifyListeners();
-    }
-  }
-}
+//   void decrementQuantity(String productName) {
+//     final index = _items.indexWhere((item) => item.product.name == productName);
+//     if (index >= 0 && _items[index].quantity > 1) {
+//       _items[index].quantity--;
+//       notifyListeners();
+//     }
+//   }
+// }
 
 class CartPage extends StatelessWidget {
-  const CartPage({Key? key}) : super(key: key);
+  const CartPage({super.key});
 
-  String _formatPrice(int price) {
-    return '${price.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}원';
-  }
+  String _formatPrice(int price) => PriceFormatter.format(price);
 
   @override
   Widget build(BuildContext context) {
@@ -72,8 +72,8 @@ class CartPage extends StatelessWidget {
         centerTitle: true,
       ),
       body: Consumer<CartProvider>(
-        builder: (context, cart, child) {
-          if (cart.items.isEmpty) {
+        builder: (context, cartProvider, child) {
+          if (cartProvider.items.isEmpty) {
             return const Center(child: Text('장바구니가 비어있습니다.'));
           }
 
@@ -81,9 +81,9 @@ class CartPage extends StatelessWidget {
             children: [
               Expanded(
                 child: ListView.builder(
-                  itemCount: cart.items.length,
+                  itemCount: cartProvider.items.length,
                   itemBuilder: (context, index) {
-                    final item = cart.items[index];
+                    final item = cartProvider.items[index];
                     return Container(
                       padding: const EdgeInsets.all(12),
                       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -114,14 +114,14 @@ class CartPage extends StatelessWidget {
                             children: [
                               IconButton(
                                 icon: const Icon(Icons.remove),
-                                onPressed: () =>
-                                    cart.decrementQuantity(item.product.name),
+                                onPressed: () => cartProvider
+                                    .decrementQuantity(item.product.id),
                               ),
                               Text('${item.quantity}'),
                               IconButton(
                                 icon: const Icon(Icons.add),
-                                onPressed: () =>
-                                    cart.incrementQuantity(item.product.name),
+                                onPressed: () => cartProvider
+                                    .incrementQuantity(item.product.id),
                               ),
                             ],
                           ),
@@ -129,7 +129,8 @@ class CartPage extends StatelessWidget {
                           Text(_formatPrice(item.totalPrice)),
                           IconButton(
                             icon: const Icon(Icons.close),
-                            onPressed: () => cart.removeItem(item.product.name),
+                            onPressed: () =>
+                                cartProvider.removeItem(item.product.id),
                           ),
                         ],
                       ),
@@ -137,7 +138,7 @@ class CartPage extends StatelessWidget {
                   },
                 ),
               ),
-              _buildPurchaseButton(context, cart),
+              _buildPurchaseButton(context, cartProvider),
             ],
           );
         },
@@ -154,8 +155,8 @@ class CartPage extends StatelessWidget {
     );
   }
 
-  Widget _buildPurchaseButton(BuildContext context, CartProvider cart) {
-    if (cart.items.isEmpty) {
+  Widget _buildPurchaseButton(BuildContext context, CartProvider cartProvider) {
+    if (cartProvider.items.isEmpty) {
       return const SizedBox.shrink();
     }
     return Container(
@@ -169,7 +170,7 @@ class CartPage extends StatelessWidget {
         onPressed: () {
           // 구매 처리 로직
         },
-        child: Text('총 ${_formatPrice(cart.totalCartPrice)} 구매하기'),
+        child: Text('총 ${_formatPrice(cartProvider.totalPrice)} 구매하기'),
       ),
     );
   }
