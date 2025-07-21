@@ -111,8 +111,13 @@ class CartPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final item = cartProvider.items[index];
                     return Container(
-                      margin: EdgeInsets.zero, // 바깥쪽 여백 최소화
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                      ), // 좌우 16px 여백 추가
                       padding: EdgeInsets.zero, // 내부 여백 최소화
+                      constraints: const BoxConstraints(
+                        minHeight: 96,
+                      ), // 세로 크기 줄임
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
@@ -143,109 +148,101 @@ class CartPage extends StatelessWidget {
                                   )
                                 : _buildImagePlaceholder(size: 160, width: 120),
                           ),
-                          const SizedBox(width: 16),
+                          const SizedBox(width: 40),
                           Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.product.name,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 17,
-                                    color: Color(0xFF222222),
-                                  ),
-                                ),
-                                if (item.product.description != null &&
-                                    item.product.description!.isNotEmpty)
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: 2.0,
-                                      bottom: 10.0,
-                                    ),
-                                    child: Text(
-                                      item.product.description!,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF888888),
-                                      ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 8.0,
+                              ), // 세로 패딩 줄임
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    item.product.name,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 17,
+                                      color: Color(0xFF222222),
                                     ),
                                   ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 0,
-                                        vertical: 0,
-                                      ), // 패딩 더 줄임
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: const Color(0xFFE0E0E0),
+                                  const SizedBox(height: 10),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 32, // 세로 높이 납작하게
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 0,
+                                          vertical: 0,
                                         ),
-                                        borderRadius: BorderRadius.circular(
-                                          20,
-                                        ), // 원형 유지
-                                        color: const Color(0xFFF8FAF3),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          IconButton(
-                                            icon: const Icon(
-                                              Icons.remove,
-                                              size: 18, // 기존 크기 유지
-                                            ),
-                                            splashRadius: 18, // 기존 크기 유지
-                                            onPressed: () =>
-                                                cartProvider.decrementQuantity(
-                                                  item.product.id,
-                                                ),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: const Color(0xFFE0E0E0),
                                           ),
-                                          Text(
-                                            '${item.quantity}',
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 15, // 복원
-                                              color: Color(0xFF222222),
+                                          borderRadius: BorderRadius.circular(
+                                            20,
+                                          ), // 원형 유지
+                                          color: const Color(0xFFF8FAF3),
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            IconButton(
+                                              icon: const Icon(
+                                                Icons.remove,
+                                                size: 18, // 기존 크기 유지
+                                              ),
+                                              splashRadius: 18, // 기존 크기 유지
+                                              onPressed: () => cartProvider
+                                                  .decrementQuantity(
+                                                    item.product.id,
+                                                  ),
                                             ),
-                                          ),
-                                          IconButton(
-                                            icon: const Icon(
-                                              Icons.add,
-                                              size: 18, // 기존 크기 유지
+                                            Text(
+                                              '${item.quantity}',
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 15, // 복원
+                                                color: Color(0xFF222222),
+                                              ),
                                             ),
-                                            splashRadius: 18, // 기존 크기 유지
-                                            onPressed: () =>
-                                                cartProvider.incrementQuantity(
-                                                  item.product.id,
-                                                ),
-                                          ),
-                                        ],
+                                            IconButton(
+                                              icon: const Icon(
+                                                Icons.add,
+                                                size: 18, // 기존 크기 유지
+                                              ),
+                                              splashRadius: 18, // 기존 크기 유지
+                                              onPressed: () => cartProvider
+                                                  .incrementQuantity(
+                                                    item.product.id,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(
-                                        Icons.close,
-                                        size: 22,
-                                        color: Color(0xFF888888),
+                                      IconButton(
+                                        icon: const Icon(
+                                          Icons.close,
+                                          size: 22,
+                                          color: Color(0xFF888888),
+                                        ),
+                                        splashRadius: 18,
+                                        onPressed: () => cartProvider
+                                            .removeItem(item.product.id),
                                       ),
-                                      splashRadius: 18,
-                                      onPressed: () => cartProvider.removeItem(
-                                        item.product.id,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  _formatPrice(item.totalPrice),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 17,
-                                    color: Color(0xFF222222),
+                                    ],
                                   ),
-                                ),
-                              ],
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    _formatPrice(item.totalPrice),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 17,
+                                      color: Color(0xFF222222),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
