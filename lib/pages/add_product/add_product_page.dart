@@ -12,12 +12,15 @@ class _AddProductPageState extends State<AddProductPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController originController = TextEditingController();
+  final TextEditingController farmerController = TextEditingController();
 
   @override
   void dispose() {
     nameController.dispose();
     priceController.dispose();
     descriptionController.dispose();
+    originController.dispose();
     super.dispose();
   }
 
@@ -43,12 +46,18 @@ class _AddProductPageState extends State<AddProductPage> {
             const SizedBox(height: 16),
             ProductPriceInputWidget(controller: priceController),
             const SizedBox(height: 16),
+            ProductOriginInputWidget(controller: originController),
+            const SizedBox(height: 16),
             ProductDescriptionInputWidget(controller: descriptionController),
+            const SizedBox(height: 16),
+            ProductFarmerInputWidget(controller: farmerController),
             const SizedBox(height: 32),
             RegisterButtonWidget(
               nameController: nameController,
               priceController: priceController,
+              originController: originController,
               descriptionController: descriptionController,
+              farmerController: farmerController,
             ),
           ],
         ),
