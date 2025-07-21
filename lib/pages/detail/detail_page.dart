@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:today_s_farm/providers/cart_provider.dart';
 import 'package:today_s_farm/models/product_model.dart';
 import 'package:today_s_farm/utils/price_formatter.dart';
+import 'package:today_s_farm/constants/app_colors.dart';
 import 'package:today_s_farm/utils/star_icon_formatter.dart';
 import 'package:today_s_farm/pages/cart/cart_page.dart';
 import 'package:today_s_farm/pages/detail/widgets/cart_dialog.dart';
@@ -154,12 +155,12 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
     final totalPrice = widget.product.price * _quantity;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5), // 배경색 변경
+      backgroundColor: Colors.white, // 배경색 - 흰색
       appBar: AppBar(
-        backgroundColor: const Color(0xFFF5F5F5), // 배경색 변경
+        backgroundColor: Colors.white, // 배경색 - 흰색
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: const Color(0xFF333333)), // 색상 변경
+          icon: Icon(Icons.arrow_back, color: AppColors.textPrimary), // 색상 변경
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -171,7 +172,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
           IconButton(
             icon: Icon(
               Icons.shopping_cart_outlined,
-              color: const Color(0xFF333333), // 색상 변경
+              color: AppColors.textPrimary, // 색상 변경
               size: 28,
             ),
             onPressed: () {
@@ -197,32 +198,32 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                         // 제품 이미지 영역
                         Container(
                           width: double.infinity,
-                          color: const Color(0xFFF5F5F5), // 배경색 변경
+                          color: Colors.white, // 배경색 - 흰색
                           child: widget.product.imageUrl != null
                               ? Image.asset(
                                   widget.product.imageUrl!,
                                   width: double.infinity,
                                   fit: BoxFit.fitWidth,
                                   errorBuilder: (_, __, ___) => Container(
-                                    color: const Color(0xFFF5F5F5), // 배경색 변경
+                                    color: Colors.white, // 배경색 - 흰색
                                     height:
                                         MediaQuery.of(context).size.height *
                                         0.6,
                                     child: Icon(
                                       Icons.image,
                                       size: 60,
-                                      color: const Color(0xFF9E9E9E), // 색상 변경
+                                      color: AppColors.textSecondary, // 색상 변경
                                     ),
                                   ),
                                 )
                               : Container(
-                                  color: const Color(0xFFF5F5F5), // 배경색 변경
+                                  color: Colors.white, // 배경색 - 흰색
                                   height:
                                       MediaQuery.of(context).size.height * 0.6,
                                   child: Icon(
                                     Icons.image,
                                     size: 60,
-                                    color: const Color(0xFF9E9E9E), // 색상 변경
+                                    color: AppColors.textSecondary, // 색상 변경
                                   ),
                                 ),
                         ),
@@ -271,9 +272,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                                       Text(
                                         '${widget.product.farmer} 농부',
                                         style: TextStyle(
-                                          color: const Color(
-                                            0xFF333333,
-                                          ), // 색상 변경
+                                          color: AppColors.textPrimary, // 색상 변경
                                           fontSize: 17,
                                           fontWeight: FontWeight.w600,
                                         ),
@@ -285,21 +284,18 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                                       PartialStarRating(
                                         rating: widget.product.star ?? 0.0,
                                         size: 21,
-                                        filledColor: const Color(
-                                          0xFFFBC02D,
-                                        ), // 별 채우기 색상
-                                        unfilledColor: const Color(
-                                          0xFFE0E0E0,
-                                        ), // 별 비우기 색상
+                                        filledColor:
+                                            AppColors.starFilled, // 별 채우기 색상
+                                        unfilledColor:
+                                            AppColors.starEmpty, // 별 비우기 색상
                                       ),
                                       const SizedBox(width: 8),
                                       Text(
                                         widget.product.star?.toString() ??
                                             '0.0',
                                         style: TextStyle(
-                                          color: const Color(
-                                            0xFF9E9E9E,
-                                          ), // 색상 변경
+                                          color:
+                                              AppColors.textSecondary, // 색상 변경
                                           fontSize: 17,
                                           fontWeight: FontWeight.w600,
                                         ),
@@ -314,7 +310,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
 
                         // 첫 번째 구분선
                         Divider(
-                          color: const Color(0xFFE0E0E0), // 구분선 색상 변경
+                          color: AppColors.divider, // 구분선 색상 변경
                           thickness: 1,
                           height: 1,
                           indent: 0,
@@ -335,7 +331,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                               Text(
                                 widget.product.name,
                                 style: TextStyle(
-                                  color: const Color(0xFF333333), // 색상 변경
+                                  color: AppColors.textPrimary, // 색상 변경
                                   fontSize: 23,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -353,7 +349,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                                       widget.product.price,
                                     ),
                                     style: TextStyle(
-                                      color: const Color(0xFFFBC02D), // 가격 색상
+                                      color: AppColors.primary, // 가격 색상 - 초록색
                                       fontSize: 38,
                                       fontWeight: FontWeight.w900,
                                     ),
@@ -362,7 +358,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                                   Text(
                                     '원',
                                     style: TextStyle(
-                                      color: const Color(0xFF9E9E9E), // 색상 변경
+                                      color: AppColors.textSecondary, // 색상 변경
                                       fontSize: 19,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -372,35 +368,35 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
 
                               const SizedBox(height: 12),
 
-                              // 배송 정보
+                              // 예상배송일
                               Row(
-                                crossAxisAlignment: CrossAxisAlignment.baseline,
-                                textBaseline: TextBaseline.alphabetic,
                                 children: [
                                   Text(
                                     '예상배송일',
                                     style: TextStyle(
-                                      color: const Color(0xFF333333), // 색상 변경
+                                      color: AppColors.textPrimary, // 색상 변경
                                       fontSize: 17,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
+                                  const SizedBox(width: 12),
                                   Container(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 12,
                                       vertical: 6,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: const Color(0xFFE0E0E0), // 배경색 변경
+                                      color: const Color(
+                                        0xFFE8F5E8,
+                                      ), // 연한 초록 배경
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: Text(
                                       widget.product.formattedDeliveryDate,
                                       style: TextStyle(
                                         color: const Color(
-                                          0xFFFBC02D,
-                                        ), // 배송일 색상
+                                          0xFF388E3C,
+                                        ), // 진한 초록 텍스트
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -414,7 +410,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
 
                         // 두 번째 구분선
                         Divider(
-                          color: const Color(0xFFE0E0E0), // 구분선 색상 변경
+                          color: AppColors.divider, // 구분선 색상 변경
                           thickness: 1,
                           height: 1,
                           indent: 0,
@@ -424,18 +420,19 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                         // 제품 설명 섹션
                         Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 16,
-                          ),
-                          child: Text(
-                            widget.product.description,
-                            style: TextStyle(
-                              color: const Color(0xFF333333), // 색상 변경
-                              fontSize: 17,
-                              fontWeight: FontWeight.w400,
-                              height: 1.5,
-                            ),
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.product.description,
+                                style: TextStyle(
+                                  color: AppColors.textPrimary, // 색상 변경
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -457,10 +454,10 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                   child: Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF5F5F5), // 배경색 변경
+                      color: AppColors.cardBackground, // 배경색 - 흰색 카드
                       border: Border(
                         top: BorderSide(
-                          color: const Color(0xFFE0E0E0),
+                          color: AppColors.divider,
                           width: 1,
                         ), // 구분선 색상 변경
                       ),
@@ -479,9 +476,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 border: Border.all(
-                                  color: const Color(
-                                    0xFFE0E0E0,
-                                  ), // 입력 필드 구분선 색상 변경
+                                  color: AppColors.divider, // 입력 필드 구분선 색상 변경
                                 ),
                                 borderRadius: BorderRadius.circular(30),
                               ),
@@ -495,8 +490,9 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                                       Icons.remove,
                                       size: 24,
                                       color: _quantity > 1
-                                          ? const Color(0xFF9E9E9E) // 색상 변경
-                                          : const Color(0xFFB0B0B0), // 비활성화 색상
+                                          ? AppColors
+                                                .divider // 색상 변경
+                                          : AppColors.divider, // 비활성화 색상
                                     ),
                                     constraints: const BoxConstraints(
                                       minWidth: 36,
@@ -508,7 +504,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                                     style: TextStyle(
                                       fontSize: 24,
                                       fontWeight: FontWeight.w600,
-                                      color: const Color(0xFF333333), // 색상 변경
+                                      color: AppColors.textPrimary, // 색상 변경
                                     ),
                                   ),
                                   IconButton(
@@ -519,8 +515,9 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                                       Icons.add,
                                       size: 24,
                                       color: _quantity < 99
-                                          ? const Color(0xFF333333) // 색상 변경
-                                          : const Color(0xFFB0B0B0), // 비활성화 색상
+                                          ? AppColors
+                                                .textPrimary // 색상 변경
+                                          : AppColors.divider, // 비활성화 색상
                                     ),
                                     constraints: const BoxConstraints(
                                       minWidth: 36,
@@ -538,7 +535,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                                 Text(
                                   '총 가격',
                                   style: TextStyle(
-                                    color: const Color(0xFF9E9E9E), // 색상 변경
+                                    color: AppColors.textSecondary, // 색상 변경
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,
                                   ),
@@ -547,7 +544,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                                 Text(
                                   PriceFormatter.format(totalPrice),
                                   style: TextStyle(
-                                    color: const Color(0xFFFBC02D), // 총 가격 색상
+                                    color: AppColors.primary, // 총 가격 색상 - 초록색
                                     fontSize: 22,
                                     fontWeight: FontWeight.w700,
                                   ),
@@ -566,17 +563,17 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                                 onPressed: _addToCart,
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.white,
-                                  foregroundColor: const Color(
-                                    0xFFFBC02D,
-                                  ), // 버튼 색상
+                                  foregroundColor:
+                                      AppColors.primary, // 버튼 색상 - 초록색
                                   elevation: 0,
                                   padding: const EdgeInsets.symmetric(
-                                    vertical: 16,
+                                    vertical: 12,
+                                    horizontal: 24,
                                   ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(25),
                                     side: BorderSide(
-                                      color: const Color(0xFFFBC02D), // 버튼 색상
+                                      color: AppColors.primary, // 버튼 색상 - 초록색
                                       width: 1,
                                     ),
                                   ),
@@ -584,7 +581,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                                 child: Text(
                                   '장바구니 담기',
                                   style: TextStyle(
-                                    color: const Color(0xFFFBC02D), // 버튼 색상
+                                    color: AppColors.primary, // 버튼 색상 - 초록색
                                     fontSize: 17,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -597,9 +594,8 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                               child: ElevatedButton(
                                 onPressed: _buyNow,
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(
-                                    0xFFFBC02D,
-                                  ), // 버튼 색상
+                                  backgroundColor:
+                                      AppColors.primary, // 버튼 색상 - 초록색
                                   foregroundColor: Colors.white,
                                   elevation: 0,
                                   padding: const EdgeInsets.symmetric(
