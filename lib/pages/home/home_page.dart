@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:today_s_farm/constants/app_colors.dart';
 import 'package:today_s_farm/utils/data_products.dart';
 import 'package:today_s_farm/models/product_model.dart';
 import 'package:today_s_farm/pages/add_product/add_product_page.dart';
@@ -27,7 +28,11 @@ class _HomePageState extends State<HomePage> {
         centerTitle: false,
         actions: [
           IconButton(
-            icon: const Icon(Icons.shopping_cart_outlined),
+            icon: Icon(
+              Icons.shopping_cart_outlined,
+              color: Colors.black,
+              size: 28,
+            ),
             onPressed: () {
               Navigator.push(
                 context,
@@ -179,20 +184,31 @@ class _HomePageState extends State<HomePage> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final result = await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const AddProductPage()),
-          );
+      floatingActionButton: SizedBox(
+        height: 50,
+        child: FloatingActionButton.extended(
+          onPressed: () async {
+            final result = await Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const AddProductPage()),
+            );
 
-          if (result != null && result is Product) {
-            setState(() {
-              productList.insert(0, result);
-            });
-          }
-        },
-        child: const Icon(Icons.add),
+            if (result != null && result is Product) {
+              setState(() {
+                productList.insert(0, result);
+              });
+            }
+          },
+          label: const Text(
+            '상품 추가하기',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: AppColors.buttonPrimary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(60),
+          ),
+          elevation: 0,
+        ),
       ),
     );
   }
